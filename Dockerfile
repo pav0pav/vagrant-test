@@ -3,10 +3,8 @@ FROM debian:buster
 ENV TZ=Australia/Brisbane
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 RUN apt-get update -y
 RUN apt-get install -y --no-install-recommends ssh sudo tacacs+ pppoe git ntpdate iperf3
-
 RUN useradd --create-home -s /bin/bash vagrant
 RUN echo -n 'vagrant:vagrant' | chpasswd
 RUN echo 'vagrant ALL = NOPASSWD: ALL' > /etc/sudoers.d/vagrant
@@ -18,9 +16,7 @@ RUN chmod 600 /home/vagrant/.ssh/authorized_keys
 RUN chown -R vagrant:vagrant /home/vagrant/.ssh
 RUN sed -i -e 's/Defaults.*requiretty/#&/' /etc/sudoers
 RUN sed -i -e 's/\(UsePAM \)yes/\1 no/' /etc/ssh/sshd_config
-
 RUN mkdir /var/run/sshd
-
 RUN apt-get -y install openssh-client
 
 EXPOSE 22
